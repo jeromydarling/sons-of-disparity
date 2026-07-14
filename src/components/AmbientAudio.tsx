@@ -89,15 +89,16 @@ export default function AmbientAudio() {
       aria-pressed={enabled}
       aria-label={enabled ? 'Mute background music' : 'Play background music'}
       title="“It Makes a Long Time Man Feel Bad” — traditional work song"
-      className={`fixed top-5 right-5 z-50 flex h-9 w-9 items-center justify-center border font-mono text-sm
-                  backdrop-blur-sm transition-colors duration-300
+      className={`flex items-center gap-2 border px-4 py-2.5 font-mono text-xs uppercase tracking-wider
+                  backdrop-blur-sm transition-colors duration-300 shadow-[0_2px_16px_rgba(0,0,0,0.5)]
                   ${
                     enabled
-                      ? 'border-fog/40 bg-asphalt/70 text-marble'
-                      : 'border-fog/25 bg-asphalt/70 text-fog/50 line-through hover:text-fog'
+                      ? 'border-marble/40 bg-asphalt/85 text-marble/90 hover:border-marble hover:bg-asphalt'
+                      : 'border-fog/30 bg-asphalt/85 text-fog hover:border-marble/50 hover:text-marble'
                   }`}
     >
-      ♪
+      <span className={`text-sm leading-none ${enabled ? '' : 'opacity-50'}`}>♪</span>
+      {enabled ? 'Sound on' : 'Sound off'}
     </button>
   )
 }

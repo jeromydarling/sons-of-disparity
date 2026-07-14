@@ -7,7 +7,6 @@ import { analytics } from '../analytics/ga'
 import ScrollAct from '../components/ScrollAct'
 import RecordFollows from '../components/RecordFollows'
 import TheSameMistake from '../components/TheSameMistake'
-import SkepticToggle from '../components/SkepticToggle'
 
 /** Which record stage (0..5) the file has reached after a given act. */
 const stageForAct = (actNumber: number) => Math.max(0, Math.min(actNumber - 1, 5))
@@ -134,8 +133,6 @@ export default function StoryPage() {
           </nav>
         </footer>
       )}
-
-      <SkepticToggle />
     </main>
   )
 }

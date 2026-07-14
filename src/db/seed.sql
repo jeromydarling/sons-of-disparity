@@ -65,7 +65,7 @@ Deon was nineteen, driving his cousin’s car to a job interview — a warehouse
 The stop took forty minutes. The search took ten. The bag under the passenger seat was his cousin’s; the arrest was his. A first arrest, at nineteen, with a résumé on the seat.
 
 He did what the data says happens: he became a number in the column where boys like him are 2.8 times more likely to appear. Not because the numbers know him. Because the system that produced the numbers had already met a thousand boys it decided were him.', 0.1, '/media/scenes/the-stop.mp4', '/media/posters/the-stop.jpg', NULL, 'dark');
-INSERT OR REPLACE INTO story_acts (id, act_number, slug, title, subtitle, body_mdx, lenis_lerp, higgsfield_loop_url, poster_url, elevenlabs_audio_url, palette) VALUES ('act-4', 4, 'the-plea', 'The Plea', 'The same mistake', 'The public defender had eleven minutes. She was good — tired-good, the way people are good at jobs designed to be impossible. She laid out the arithmetic: fight it and risk years, or take the deal and take the record.
+INSERT OR REPLACE INTO story_acts (id, act_number, slug, title, subtitle, body_mdx, lenis_lerp, higgsfield_loop_url, poster_url, elevenlabs_audio_url, palette) VALUES ('act-4', 4, 'the-plea', 'The Plea', 'The same mistake', 'The public defender had eleven minutes. He was good — tired-good, the way people are good at jobs designed to be impossible. He laid out the arithmetic: fight it and risk years, or take the deal and take the record.
 
 Deon could not afford bail. He had been inside for nineteen days, and the warehouse job was gone, and every day inside made the deal look more like a door.
 

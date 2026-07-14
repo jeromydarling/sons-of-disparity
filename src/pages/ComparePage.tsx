@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import CompareLives from '../components/CompareLives'
-import SkepticToggle from '../components/SkepticToggle'
 
 export default function ComparePage() {
   return (
@@ -25,7 +24,6 @@ export default function ComparePage() {
         </p>
         <CompareLives />
       </motion.div>
-      <SkepticToggle />
     </main>
   )
 }

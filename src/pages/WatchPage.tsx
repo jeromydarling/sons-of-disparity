@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import CinematicPlayer from '../components/CinematicPlayer'
-import SkepticToggle from '../components/SkepticToggle'
 
 export default function WatchPage() {
   return (
@@ -12,7 +11,6 @@ export default function WatchPage() {
         ← Sons of Disparity
       </Link>
       <CinematicPlayer />
-      <SkepticToggle position="top-5 right-16" />
     </main>
   )
 }

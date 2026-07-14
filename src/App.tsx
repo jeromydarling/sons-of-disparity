@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
-import AmbientAudio from './components/AmbientAudio'
+import FloatingControls from './components/FloatingControls'
 
 const HomePage    = lazy(() => import('./pages/HomePage'))
 const StoryPage   = lazy(() => import('./pages/StoryPage'))
@@ -14,7 +14,7 @@ const AboutPage   = lazy(() => import('./pages/AboutPage'))
 export default function App() {
   return (
     <Suspense fallback={null}>
-      <AmbientAudio />
+      <FloatingControls />
       <Routes>
         <Route path="/"       element={<HomePage />} />
         <Route path="/story"  element={<StoryPage />} />

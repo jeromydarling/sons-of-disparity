@@ -526,7 +526,7 @@ const ACTS_BASE: StoryAct[] = [
     title: 'The Plea',
     subtitle: 'The same mistake',
     body_mdx: p(
-      'The public defender had eleven minutes. She was good — tired-good, the way people are good at jobs designed to be impossible. She laid out the arithmetic: fight it and risk years, or take the deal and take the record.',
+      'The public defender had eleven minutes. He was good — tired-good, the way people are good at jobs designed to be impossible. He laid out the arithmetic: fight it and risk years, or take the deal and take the record.',
       'Deon could not afford bail. He had been inside for nineteen days, and the warehouse job was gone, and every day inside made the deal look more like a door.',
       'Here the story has to stop being one story. Because somewhere in the same state, in the same June, a boy the same age with the same charge and the same empty record sat in a different room — out on bail his parents posted — and the arithmetic ran differently.',
       'Same mistake. Different math. The fork below is not a metaphor. It is measured.'
