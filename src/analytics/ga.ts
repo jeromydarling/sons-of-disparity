@@ -2,6 +2,9 @@
 // Replace GA4_MEASUREMENT_ID with your actual G-XXXXXXXXXX value
 
 const GA4_ID = (import.meta.env.VITE_GA4_MEASUREMENT_ID as string) || 'G-REPLACE_ME'
+// Optional second property — CROS Family aggregate. Events dual-send to every
+// configured ID automatically.
+const CROS_GA4_ID = (import.meta.env.VITE_CROS_GA4_ID as string) || ''
 
 export function initGA4() {
   if (typeof window === 'undefined') return
@@ -17,6 +20,9 @@ export function initGA4() {
     send_page_view: true,
     custom_map: { dimension1: 'mode', dimension2: 'act_number' },
   })
+  if (CROS_GA4_ID) {
+    gtag('config', CROS_GA4_ID, { send_page_view: true })
+  }
 }
 
 function track(event: string, params?: Record<string, unknown>) {

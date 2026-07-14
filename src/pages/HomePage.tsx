@@ -1,14 +1,8 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { analytics } from '../analytics/ga'
 
 export default function HomePage() {
-  useEffect(() => {
-    // Dismiss preloader if still showing (fallback)
-    if (window.__dismissPreloader) window.__dismissPreloader()
-  }, [])
-
   return (
     <main className="min-h-screen bg-asphalt flex flex-col items-center justify-center px-6 text-center">
       <motion.div
