@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sons of Disparity</title>
+  <meta name="description" content="A narrative experience exploring racial disparity in the American criminal justice system." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* --- PRELOADER: runs before React mounts --- */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #111111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    #preloader-number {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 300;
+      color: #D8D3C7;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      min-height: 1.2em;
+      text-align: center;
+    }
+    #preloader-label {
+      font-size: 0.75rem;
+      color: #6B6B6B;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #preloader-phrase {
+      position: absolute;
+      bottom: 12vh;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.25rem);
+      font-style: italic;
+      color: #D8D3C7;
+      text-align: center;
+      max-width: 520px;
+      padding: 0 2rem;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div id="preloader-number"></div>
+    <div id="preloader-label">Assembling the record…</div>
+    <div id="preloader-phrase">He is not born guilty. But the record is already open.</div>
+  </div>
+
+  <!-- React root -->
+  <div id="root"></div>
+
+  <script type="module" src="/src/main.tsx"></script>
+
+  <script>
+    // --- Preloader animation: runs immediately, before React ---
+    const numbers = [
+      { val: '28.5%', label: 'Black child poverty rate' },
+      { val: '3.6×',  label: 'more likely to be suspended' },
+      { val: '2.8×',  label: 'more likely to be arrested' },
+      { val: '25%',   label: 'charge reduction gap' },
+      { val: '72.7%', label: 'recidivism within 5 years' },
+      { val: '1.75×', label: 'mandatory minimum exposure' },
+    ];
+    const numEl   = document.getElementById('preloader-number');
+    const lblEl   = document.getElementById('preloader-label');
+    const phraseEl = document.getElementById('preloader-phrase');
+    let i = 0;
+    lblEl.style.opacity = '1';
+
+    function showNext() {
+      if (i >= numbers.length) {
+        // All numbers shown — reveal the phrase
+        numEl.style.opacity = '0';
+        lblEl.style.opacity = '0';
+        setTimeout(() => { phraseEl.style.opacity = '1'; }, 400);
+        return;
+      }
+      numEl.style.opacity = '0';
+      setTimeout(() => {
+        numEl.textContent = numbers[i].val;
+        lblEl.textContent = numbers[i].label;
+        numEl.style.opacity = '1';
+        i++;
+        setTimeout(showNext, 650);
+      }, 180);
+    }
+    showNext();
+
+    // React will call window.__dismissPreloader() when ready
+    window.__dismissPreloader = function() {
+      const el = document.getElementById('preloader');
+      if (!el) return;
+      el.style.transition = 'opacity 0.8s ease';
+      el.style.opacity = '0';
+      setTimeout(() => { el.remove(); }, 900);
+    };
+  </script>
+</body>
+</html>

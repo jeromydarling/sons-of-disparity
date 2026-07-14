@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #111111;
+    color: #D8D3C7;
+    scroll-behavior: auto; /* Lenis handles scroll */
+  }
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: #7A2E2A;
+    color: #D8D3C7;
+  }
+}
+
+@layer components {
+  .stat-card {
+    @apply font-mono text-marble border border-fog/20 bg-charcoal/80 backdrop-blur-sm px-4 py-3 rounded-sm;
+  }
+
+  .stat-value {
+    @apply text-3xl font-medium text-marble leading-none mb-1;
+  }
+
+  .stat-label {
+    @apply text-xs uppercase tracking-widest text-fog;
+  }
+
+  .source-link {
+    @apply text-fog/60 hover:text-marble underline underline-offset-2 decoration-fog/30 transition-colors text-sm font-mono;
+  }
+
+  .skeptic-badge {
+    @apply inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-mono tracking-wider uppercase
+           bg-brick/20 text-brick border border-brick/30 rounded-sm;
+  }
+}
