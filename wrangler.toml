@@ -10,7 +10,7 @@ not_found_handling = "single-page-application"
 [[d1_databases]]
 binding = "DB"
 database_name = "sons-of-disparity-db"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "66a29669-18eb-4d71-8561-e5070b12e333"
 
 [[r2_buckets]]
 binding = "MEDIA_BUCKET"
@@ -19,3 +19,5 @@ bucket_name = "sons-of-disparity-media"
 [vars]
 GA4_MEASUREMENT_ID = "REPLACE_WITH_GA4_MEASUREMENT_ID"
 ENVIRONMENT = "production"
+# Guards POST /api/admin/migrate (idempotent D1 schema+seed). Rotate at will.
+MIGRATE_TOKEN = "067282825cfdcabc4b591d490251b632"

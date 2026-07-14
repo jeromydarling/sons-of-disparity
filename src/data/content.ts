@@ -461,7 +461,9 @@ export const STATISTICS: Statistic[] = [
 
 const p = (...paras: string[]) => paras.join('\n\n')
 
-export const ACTS: StoryAct[] = [
+// Acts and cinema scenes share slugs (acts 1-7 ↔ scenes 2-8), so every act's
+// background loop and poster derive from the matching scene asset.
+const ACTS_BASE: StoryAct[] = [
   {
     id: 'act-1',
     act_number: 1,
@@ -592,13 +594,24 @@ export const ACTS: StoryAct[] = [
   },
 ]
 
+export const ACTS: StoryAct[] = ACTS_BASE.map((a) => ({
+  ...a,
+  higgsfield_loop_url: `/media/scenes/${a.slug}.mp4`,
+  poster_url: `/media/posters/${a.slug}.jpg`,
+}))
+
 // ---------------------------------------------------------------------------
-// Video scenes (cinema mode) — video/narration assets pending (Higgsfield /
-// ElevenLabs). transcript_text doubles as the caption + transcript source.
+// Video scenes (cinema mode) — Higgsfield loops (kling3_0_turbo, 10s, muted)
+// + ElevenLabs narration (via Higgsfield text2speech_v2, voice "Sterling").
+// Scene duration = narration length + a breathing tail; the player's master
+// clock owns timing and the loop just plays underneath.
+// transcript_text doubles as the caption + transcript source.
 // ---------------------------------------------------------------------------
 
+const ELEVENLABS_VOICE_ID = 'dc382508-c8bd-443c-8cb2-46e57b8d2e6f' // "Sterling"
+
 const HIGGSFIELD_BASE =
-  'Stylized black and white silhouette animation, restrained urban documentary tone, paper-cut shadows, soft film grain, high contrast but gentle edges, realistic human movement, no exaggerated drama, no violence shown directly, dignified portrayal, American city neighborhood, streetlight glow, shallow depth, slow camera movement, minimal color, analog texture, believable, quiet, humane'
+  'Hand-drawn pen and ink illustration animation on aged cream sketchbook paper with worn edges, vintage archival documentary style, crosshatched pen shading, figures rendered as bold solid black ink silhouettes — Black subjects portrayed with dignity and tenderness, never caricature — subtle animated line work, slow gentle camera drift, quiet, humane. No photorealism, no bright colors, no violence, no readable words or lettering'
 
 const scene = (
   n: number,
@@ -615,13 +628,13 @@ const scene = (
   chapter_slug,
   sequence: n,
   duration_seconds,
-  video_url: null,
-  poster_url: null,
+  video_url: `/media/scenes/${slug}.mp4`,
+  poster_url: `/media/posters/${slug}.jpg`,
   transcript_text,
-  narration_audio_url: null,
+  narration_audio_url: `/media/narration/${slug}.mp3`,
   higgsfield_prompt: `${HIGGSFIELD_BASE}. Scene: ${sceneDirection}`,
-  elevenlabs_voice_id: null,
-  status: 'planned',
+  elevenlabs_voice_id: ELEVENLABS_VOICE_ID,
+  status: 'ready',
 })
 
 export const VIDEO_SCENES: VideoScene[] = [
@@ -630,7 +643,8 @@ export const VIDEO_SCENES: VideoScene[] = [
     'the-ledger',
     'The Ledger',
     'prologue',
-    42,
+    
+24,
     'This is a story about a boy who does not exist. His name is Deon. We built him out of numbers — and every number is real. Before he has a name, a ledger is already open: where he will live, what his school will do with him, how a traffic stop will go. This film reads the ledger out loud.',
     'A ledger book opening in darkness, pages turning slowly, columns of figures dissolving into a city skyline silhouette at night.'
   ),
@@ -639,7 +653,8 @@ export const VIDEO_SCENES: VideoScene[] = [
     'before-he-has-a-name',
     'Before He Has a Name',
     'act-1',
-    68,
+    
+32,
     'Deon is born in 2001, on the north side of a city like a lot of American cities. Four people, three rooms, one window. More than a quarter of Black children in America grow up below the poverty line — nearly three times the rate for white children. Two-thirds grow up in high-poverty neighborhoods. For white children, six percent. Nothing about him is decided yet. But the odds were assembled before he had a name.',
     'A mother holding an infant silhouetted against an apartment window, city block below, streetlight glow, laundry lines, quiet.'
   ),
@@ -648,7 +663,8 @@ export const VIDEO_SCENES: VideoScene[] = [
     'the-hallway',
     'The Hallway',
     'act-2',
-    64,
+    
+30,
     'Seventh grade. A push in a hallway — two boys, both pushed, one recorded. Black students are three point six times more likely to be suspended for the same behavior. And a suspension is a door: students suspended for a discretionary offense are nearly three times more likely to touch the juvenile justice system within a year. Three days out of school. Nothing starts from zero again.',
     'A long empty school hallway, lockers in silhouette, a small figure walking away carrying a backpack, fluorescent light pooling.'
   ),
@@ -657,7 +673,8 @@ export const VIDEO_SCENES: VideoScene[] = [
     'the-stop',
     'The Stop',
     'act-3',
-    66,
+    
+25,
     'Nineteen years old. A tail light. A résumé on the passenger seat. Black drivers are searched at roughly twice the rate of white drivers — and the searches find less. Black Americans are arrested at two point eight times the rate of white Americans. The stop takes forty minutes. The interview never happens.',
     'A car at night pulled to a curb, headlight beams and long shadows, a paper résumé on a passenger seat, red glow kept off-screen.'
   ),
@@ -666,7 +683,8 @@ export const VIDEO_SCENES: VideoScene[] = [
     'the-plea',
     'The Plea',
     'act-4',
-    78,
+    
+38,
     'Two boys. Same age. Same charge. No priors. The white defendant’s top charge is reduced or dropped sixty-three point nine percent of the time. The Black defendant’s: fifty point seven. For the same misdemeanor, the white defendant avoids a jail-carrying conviction seventy-five percent more often. Deon cannot afford bail — and detention raises conviction by thirteen points, almost entirely through guilty pleas. He takes the deal. The same mistake was never the same mistake.',
     'A table splitting the frame in two, two identical silhouetted figures on either side, one door opening and one staying shut, scales implied by light.'
   ),
@@ -675,7 +693,8 @@ export const VIDEO_SCENES: VideoScene[] = [
     'the-count',
     'The Count',
     'act-5',
-    70,
+    
+33,
     'Thirty-one months. The count happens four times a day. One in three Black boys born in 2001 was projected to be imprisoned in his lifetime; for white boys, one in seventeen. For the same conduct, prosecutors file mandatory-minimum charges one point seven five times more often against Black defendants. Deon reads. There is a class, when there is funding. Time is something done to him.',
     'Slow pan across a cell block in silhouette, bars casting long parallel shadows, a single figure reading by a small light, desaturated.'
   ),
@@ -684,7 +703,8 @@ export const VIDEO_SCENES: VideoScene[] = [
     'the-box',
     'The Box',
     'act-6',
-    66,
+    
+32,
     'They give you your shoes, a bus ticket, and a record. The application asks one question in a box above his name. In matched audits, a white applicant with a felony record gets called back more often than a Black applicant with no record at all. A Black applicant with a record: five percent. Unemployment among the formerly incarcerated is twenty-seven percent — worse than the Great Depression. Deon checks the box, because it is the truth.',
     'A pen hovering over a printed form, an oversized checkbox, a phone on a table that does not ring, window light crossing the frame.'
   ),
@@ -693,26 +713,28 @@ export const VIDEO_SCENES: VideoScene[] = [
     'the-nursery',
     'The Nursery',
     'act-7',
-    72,
+    
+37,
     'Twenty twenty-six. A boy named Marcus is born to a father who is watchful, and means it as a compliment. The class Deon started inside became a certificate outside: education in prison cuts the odds of going back by forty-three percent. One in nine Black children has had a parent behind bars — the record follows families. But Marcus’s file is empty. It is still mostly blank. This is the only scene with color in it. Hold the pen.',
     'A nursery at dawn, a father silhouetted holding an infant by a window, a small potted seedling on the sill rendered in muted green — the only color in the film.'
   ),
 ]
 
+// Timestamps track where each number lands in the ElevenLabs narration.
 export const VIDEO_SCENE_STATISTICS: VideoSceneStatistic[] = [
-  { video_scene_id: 'vs-2', statistic_id: 'st-a1-poverty', timestamp_start_seconds: 18, timestamp_end_seconds: 30, display_mode: 'overlay' },
-  { video_scene_id: 'vs-2', statistic_id: 'st-a1-neighborhood', timestamp_start_seconds: 34, timestamp_end_seconds: 48, display_mode: 'overlay' },
-  { video_scene_id: 'vs-3', statistic_id: 'st-a2-suspension', timestamp_start_seconds: 14, timestamp_end_seconds: 26, display_mode: 'overlay' },
-  { video_scene_id: 'vs-3', statistic_id: 'st-a2-pipeline', timestamp_start_seconds: 30, timestamp_end_seconds: 44, display_mode: 'overlay' },
-  { video_scene_id: 'vs-4', statistic_id: 'st-a3-search', timestamp_start_seconds: 12, timestamp_end_seconds: 26, display_mode: 'overlay' },
-  { video_scene_id: 'vs-4', statistic_id: 'st-a3-arrest', timestamp_start_seconds: 30, timestamp_end_seconds: 44, display_mode: 'overlay' },
-  { video_scene_id: 'vs-5', statistic_id: 'st-a4-charge-reduction', timestamp_start_seconds: 10, timestamp_end_seconds: 28, display_mode: 'overlay' },
-  { video_scene_id: 'vs-5', statistic_id: 'st-a4-misdemeanor', timestamp_start_seconds: 32, timestamp_end_seconds: 44, display_mode: 'overlay' },
-  { video_scene_id: 'vs-5', statistic_id: 'st-a4-detention', timestamp_start_seconds: 48, timestamp_end_seconds: 62, display_mode: 'overlay' },
-  { video_scene_id: 'vs-6', statistic_id: 'st-a5-lifetime', timestamp_start_seconds: 12, timestamp_end_seconds: 28, display_mode: 'overlay' },
-  { video_scene_id: 'vs-6', statistic_id: 'st-a5-mandmin', timestamp_start_seconds: 32, timestamp_end_seconds: 46, display_mode: 'overlay' },
-  { video_scene_id: 'vs-7', statistic_id: 'st-a6-callback', timestamp_start_seconds: 12, timestamp_end_seconds: 30, display_mode: 'overlay' },
-  { video_scene_id: 'vs-7', statistic_id: 'st-a6-unemployment', timestamp_start_seconds: 34, timestamp_end_seconds: 48, display_mode: 'overlay' },
-  { video_scene_id: 'vs-8', statistic_id: 'st-a7-education', timestamp_start_seconds: 16, timestamp_end_seconds: 30, display_mode: 'overlay' },
-  { video_scene_id: 'vs-8', statistic_id: 'st-a7-parent', timestamp_start_seconds: 34, timestamp_end_seconds: 48, display_mode: 'overlay' },
+  { video_scene_id: 'vs-2', statistic_id: 'st-a1-poverty', timestamp_start_seconds: 8, timestamp_end_seconds: 15, display_mode: 'overlay' },
+  { video_scene_id: 'vs-2', statistic_id: 'st-a1-neighborhood', timestamp_start_seconds: 16, timestamp_end_seconds: 24, display_mode: 'overlay' },
+  { video_scene_id: 'vs-3', statistic_id: 'st-a2-suspension', timestamp_start_seconds: 7, timestamp_end_seconds: 13, display_mode: 'overlay' },
+  { video_scene_id: 'vs-3', statistic_id: 'st-a2-pipeline', timestamp_start_seconds: 14, timestamp_end_seconds: 22, display_mode: 'overlay' },
+  { video_scene_id: 'vs-4', statistic_id: 'st-a3-search', timestamp_start_seconds: 5, timestamp_end_seconds: 11, display_mode: 'overlay' },
+  { video_scene_id: 'vs-4', statistic_id: 'st-a3-arrest', timestamp_start_seconds: 12, timestamp_end_seconds: 18, display_mode: 'overlay' },
+  { video_scene_id: 'vs-5', statistic_id: 'st-a4-charge-reduction', timestamp_start_seconds: 5, timestamp_end_seconds: 14, display_mode: 'overlay' },
+  { video_scene_id: 'vs-5', statistic_id: 'st-a4-misdemeanor', timestamp_start_seconds: 15, timestamp_end_seconds: 21, display_mode: 'overlay' },
+  { video_scene_id: 'vs-5', statistic_id: 'st-a4-detention', timestamp_start_seconds: 22, timestamp_end_seconds: 30, display_mode: 'overlay' },
+  { video_scene_id: 'vs-6', statistic_id: 'st-a5-lifetime', timestamp_start_seconds: 6, timestamp_end_seconds: 13, display_mode: 'overlay' },
+  { video_scene_id: 'vs-6', statistic_id: 'st-a5-mandmin', timestamp_start_seconds: 14, timestamp_end_seconds: 22, display_mode: 'overlay' },
+  { video_scene_id: 'vs-7', statistic_id: 'st-a6-callback', timestamp_start_seconds: 6, timestamp_end_seconds: 15, display_mode: 'overlay' },
+  { video_scene_id: 'vs-7', statistic_id: 'st-a6-unemployment', timestamp_start_seconds: 16, timestamp_end_seconds: 23, display_mode: 'overlay' },
+  { video_scene_id: 'vs-8', statistic_id: 'st-a7-education', timestamp_start_seconds: 8, timestamp_end_seconds: 15, display_mode: 'overlay' },
+  { video_scene_id: 'vs-8', statistic_id: 'st-a7-parent', timestamp_start_seconds: 17, timestamp_end_seconds: 25, display_mode: 'overlay' },
 ]

@@ -8,12 +8,16 @@ import {
   VIDEO_SCENE_STATISTICS,
 } from '../data/content'
 
+// Vite bundles the schema file as a raw string for the migration endpoint
+import schemaSql from '../db/schema.sql?raw'
+
 type Bindings = {
   DB: D1Database
   MEDIA_BUCKET: R2Bucket
   ASSETS: Fetcher
   GA4_MEASUREMENT_ID: string
   ENVIRONMENT: string
+  MIGRATE_TOKEN: string
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -141,6 +145,69 @@ app.get('/api/media/:key{.+}', async (c) => {
   } catch {
     return c.json({ error: 'Media unavailable' }, 503)
   }
+})
+
+// One-shot D1 migration: applies schema.sql and seeds every table from the
+// bundled content module (INSERT OR REPLACE — idempotent, safe to re-run).
+// Guarded by the MIGRATE_TOKEN var. Re-run after editing src/data/content.ts:
+//   curl -X POST https://<host>/api/admin/migrate -H "x-migrate-token: <token>"
+app.post('/api/admin/migrate', async (c) => {
+  if (c.req.header('x-migrate-token') !== c.env.MIGRATE_TOKEN || !c.env.MIGRATE_TOKEN) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+
+  // schema.sql contains no semicolons inside string literals, so a top-level
+  // split is safe here
+  const ddl = schemaSql
+    .split(';')
+    .map((s) =>
+      s
+        .split('\n')
+        .filter((line) => !line.trim().startsWith('--'))
+        .join('\n')
+        .trim()
+    )
+    .filter((s) => s.length > 0)
+  for (const stmt of ddl) {
+    await c.env.DB.prepare(stmt).run()
+  }
+
+  const insert = (table: string, cols: string[], rows: Record<string, unknown>[]) =>
+    rows.map((r) =>
+      c.env.DB.prepare(
+        `INSERT OR REPLACE INTO ${table} (${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})`
+      ).bind(...cols.map((col) => (r as Record<string, unknown>)[col] ?? null))
+    )
+
+  const statements = [
+    ...insert('sources', ['id', 'title', 'publisher', 'url', 'year', 'methodology_note'], SOURCES as unknown as Record<string, unknown>[]),
+    ...insert(
+      'statistics',
+      ['id', 'act_number', 'slug', 'short_claim', 'value_text', 'detail_text', 'source_id', 'skeptic_caveat', 'display_style'],
+      STATISTICS as unknown as Record<string, unknown>[]
+    ),
+    ...insert(
+      'story_acts',
+      ['id', 'act_number', 'slug', 'title', 'subtitle', 'body_mdx', 'lenis_lerp', 'higgsfield_loop_url', 'poster_url', 'elevenlabs_audio_url', 'palette'],
+      ACTS as unknown as Record<string, unknown>[]
+    ),
+    ...insert(
+      'video_scenes',
+      ['id', 'slug', 'title', 'chapter_slug', 'sequence', 'duration_seconds', 'video_url', 'poster_url', 'transcript_text', 'narration_audio_url', 'higgsfield_prompt', 'elevenlabs_voice_id', 'status'],
+      VIDEO_SCENES as unknown as Record<string, unknown>[]
+    ),
+    ...insert(
+      'video_scene_statistics',
+      ['video_scene_id', 'statistic_id', 'timestamp_start_seconds', 'timestamp_end_seconds', 'display_mode'],
+      VIDEO_SCENE_STATISTICS as unknown as Record<string, unknown>[]
+    ),
+  ]
+  await c.env.DB.batch(statements)
+
+  const counts = await c.env.DB.prepare(
+    'SELECT (SELECT COUNT(*) FROM sources) AS sources, (SELECT COUNT(*) FROM statistics) AS statistics, (SELECT COUNT(*) FROM story_acts) AS acts, (SELECT COUNT(*) FROM video_scenes) AS scenes, (SELECT COUNT(*) FROM video_scene_statistics) AS scene_stats'
+  ).first()
+  return c.json({ ok: true, counts })
 })
 
 // Everything else is the SPA — hand off to static assets, whose

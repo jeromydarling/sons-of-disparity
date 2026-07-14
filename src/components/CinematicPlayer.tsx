@@ -7,7 +7,7 @@ import { fetchSceneStatistics, fetchSources, fetchStatistics, fetchVideoScenes }
 import { useSkepticMode } from '../context/SkepticModeContext'
 import { analytics } from '../analytics/ga'
 import StatOverlay from './StatOverlay'
-import { buildSceneCues, vttObjectURL } from '../utils/captions'
+import { buildSceneCues } from '../utils/captions'
 
 const sceneDuration = (s: VideoScene) => s.duration_seconds ?? 60
 
@@ -26,11 +26,10 @@ const placeholderBg = (idx: number, isLast: boolean) =>
 
 /**
  * Cinema Mode. A virtual master clock (GSAP ticker) drives playback across
- * scenes; when a scene has real video, the <video> element becomes the clock,
- * the narration <audio> stays synced to it, and a GSAP timeline synced to the
- * clock fires <StatOverlay /> at the timestamps stored in
- * video_scene_statistics. Everything is designed so Higgsfield/ElevenLabs
- * assets can be swapped in by filling video_url / narration_audio_url.
+ * scenes. Scene videos are atmospheric Higgsfield loops (muted, looping), the
+ * ElevenLabs narration <audio> stays synced to the clock, and a GSAP timeline
+ * synced to the clock fires <StatOverlay /> at the timestamps stored in
+ * video_scene_statistics. Scene duration comes from the narration length.
  */
 export default function CinematicPlayer() {
   const { skepticMode } = useSkepticMode()
@@ -117,17 +116,6 @@ export default function CinematicPlayer() {
     [scene]
   )
 
-  // WebVTT track for real video scenes
-  const vttUrl = useMemo(
-    () => (scene?.video_url && scene.transcript_text ? vttObjectURL(scene.transcript_text, sceneDuration(scene)) : null),
-    [scene]
-  )
-  useEffect(() => {
-    return () => {
-      if (vttUrl) URL.revokeObjectURL(vttUrl)
-    }
-  }, [vttUrl])
-
   /* --- master clock ------------------------------------------------------ */
 
   const setClock = useCallback(
@@ -174,22 +162,14 @@ export default function CinematicPlayer() {
     if (!scenes.length) return
     const tick = (_time: number, deltaTime: number) => {
       if (!playingRef.current) return
-      const idx = sceneIdxRef.current
-      const sc = scenes[idx]
-      const video = videoRef.current
-      let t: number
-      if (sc?.video_url && video && video.readyState >= 2 && !video.paused) {
-        // real footage: the video element is the clock
-        t = (starts[idx] ?? 0) + video.currentTime
-      } else {
-        // placeholder storyboard: virtual clock
-        t = timeRef.current + deltaTime / 1000
-      }
+      // the virtual clock is always master — scene videos are mood loops
+      let t = timeRef.current + deltaTime / 1000
       if (t >= total) {
         playingRef.current = false
         setPlaying(false)
         setEnded(true)
         analytics.videoCompleted()
+        window.dispatchEvent(new Event('sod:cinema-stopped'))
         t = total
       }
       setClock(t)
@@ -240,6 +220,8 @@ export default function CinematicPlayer() {
     setPlaying(true)
     videoRef.current?.play().catch(() => {})
     audioRef.current?.play().catch(() => {})
+    // hand the soundstage to the narration — AmbientAudio listens
+    window.dispatchEvent(new Event('sod:cinema-playing'))
   }, [ended, total, setClock])
 
   const pause = useCallback(() => {
@@ -247,6 +229,23 @@ export default function CinematicPlayer() {
     setPlaying(false)
     videoRef.current?.pause()
     audioRef.current?.pause()
+    window.dispatchEvent(new Event('sod:cinema-stopped'))
+  }, [])
+
+  // keep loop video + narration elements following the play state across
+  // scene changes (both elements remount per scene), and release the
+  // soundstage on unmount
+  useEffect(() => {
+    if (playing) {
+      videoRef.current?.play().catch(() => {})
+      audioRef.current?.play().catch(() => {})
+    }
+  }, [playing, sceneIdx])
+
+  useEffect(() => {
+    return () => {
+      window.dispatchEvent(new Event('sod:cinema-stopped'))
+    }
   }, [])
 
   const togglePlay = useCallback(() => {
@@ -259,13 +258,8 @@ export default function CinematicPlayer() {
       const clamped = Math.max(0, Math.min(t, total))
       setEnded(false)
       setClock(clamped)
-      const idx = indexAt(clamped)
-      const video = videoRef.current
-      if (video && scenes[idx]?.video_url) {
-        video.currentTime = clamped - (starts[idx] ?? 0)
-      }
     },
-    [total, setClock, indexAt, scenes, starts]
+    [total, setClock]
   )
 
   const openEvidence = useCallback(
@@ -344,26 +338,23 @@ export default function CinematicPlayer() {
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-asphalt">
-      {/* Frame: real footage or the styled storyboard placeholder */}
+      {/* Frame: Higgsfield mood loop, or the styled storyboard placeholder */}
       {scene.video_url ? (
         <video
           key={scene.id}
           ref={videoRef}
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover ${
+            scene.chapter_slug === 'act-5' ? 'grayscale contrast-90' : ''
+          }`}
           src={scene.video_url}
           poster={scene.poster_url ?? undefined}
+          loop
+          muted
           playsInline
           onLoadedData={() => {
-            const v = videoRef.current
-            if (!v) return
-            v.currentTime = Math.max(0, timeRef.current - (starts[sceneIdx] ?? 0))
-            if (playingRef.current) v.play().catch(() => {})
+            if (playingRef.current) videoRef.current?.play().catch(() => {})
           }}
-        >
-          {captionsOn && vttUrl && (
-            <track kind="subtitles" srcLang="en" label="English" src={vttUrl} default />
-          )}
-        </video>
+        />
       ) : (
         <AnimatePresence mode="wait">
           <motion.div
@@ -421,8 +412,8 @@ export default function CinematicPlayer() {
         })}
       </div>
 
-      {/* Captions (storyboard mode renders its own caption line) */}
-      {captionsOn && !scene.video_url && activeCue && (
+      {/* Captions — cue timing follows the master clock, not the loop video */}
+      {captionsOn && activeCue && (
         <div className="pointer-events-none absolute inset-x-0 bottom-36 z-20 flex justify-center px-6">
           <p className="max-w-2xl bg-asphalt/80 px-4 py-2 text-center font-serif text-lg text-marble">
             {activeCue.text}

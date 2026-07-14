@@ -12,7 +12,7 @@ export default function WatchPage() {
         ← Sons of Disparity
       </Link>
       <CinematicPlayer />
-      <SkepticToggle position="top-6 right-6" />
+      <SkepticToggle position="top-5 right-16" />
     </main>
   )
 }
