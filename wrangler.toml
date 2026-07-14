@@ -1,0 +1,20 @@
+name = "sons-of-disparity"
+main = "src/worker/index.ts"
+compatibility_date = "2024-09-23"
+
+[assets]
+directory = "./dist"
+not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sons-of-disparity-db"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "sons-of-disparity-media"
+
+[vars]
+GA4_MEASUREMENT_ID = "REPLACE_WITH_GA4_MEASUREMENT_ID"
+ENVIRONMENT = "production"
