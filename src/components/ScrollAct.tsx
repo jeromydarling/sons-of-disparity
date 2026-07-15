@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { Statistic, StoryAct } from '../types'
 import StatCard from './StatCard'
+import CrossfadeLoop from './CrossfadeLoop'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -76,17 +77,15 @@ export default function ScrollAct({ act, onEnter, onLeave, stats = [], children 
       data-act={act.act_number}
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Large screens: the loop plays full-bleed behind the text */}
+      {/* Large screens: the A/B loops crossfade full-bleed behind the text */}
       <div className={`absolute inset-0 hidden lg:block ${isPrison ? 'grayscale contrast-75' : ''}`}>
         {act.higgsfield_loop_url ? (
-          <video
-            className="h-full w-full object-cover"
-            src={act.higgsfield_loop_url}
-            poster={act.poster_url ?? undefined}
+          <CrossfadeLoop
+            srcA={act.higgsfield_loop_url}
+            srcB={act.higgsfield_loop_url_b}
+            poster={act.poster_url}
+            videoClassName="object-cover"
             autoPlay
-            loop
-            muted
-            playsInline
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-b from-bruise to-asphalt" />
@@ -98,15 +97,15 @@ export default function ScrollAct({ act, onEnter, onLeave, stats = [], children 
         {/* Phones: the whole sketch frame, uncropped, above the prose */}
         <div className="lg:hidden relative -mx-6 mb-10 lg:col-span-2">
           {act.higgsfield_loop_url ? (
-            <video
-              className={`aspect-video w-full ${isPrison ? 'grayscale contrast-75' : ''}`}
-              src={act.higgsfield_loop_url}
-              poster={act.poster_url ?? undefined}
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
+            <div className={`relative aspect-video w-full ${isPrison ? 'grayscale contrast-75' : ''}`}>
+              <CrossfadeLoop
+                srcA={act.higgsfield_loop_url}
+                srcB={act.higgsfield_loop_url_b}
+                poster={act.poster_url}
+                videoClassName="object-contain"
+                autoPlay
+              />
+            </div>
           ) : (
             <div className="aspect-video w-full bg-gradient-to-b from-bruise to-asphalt" />
           )}

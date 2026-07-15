@@ -156,6 +156,13 @@ app.post('/api/admin/migrate', async (c) => {
     return c.json({ error: 'Unauthorized' }, 401)
   }
 
+  // The five content tables are pure mirrors of src/data/content.ts, so we
+  // drop and recreate them — this makes schema evolution (new columns) a
+  // plain redeploy + re-migrate. loading_phrases keeps its schema-level seed.
+  for (const table of ['story_acts', 'statistics', 'sources', 'video_scenes', 'video_scene_statistics']) {
+    await c.env.DB.prepare(`DROP TABLE IF EXISTS ${table}`).run()
+  }
+
   // schema.sql contains no semicolons inside string literals, so a top-level
   // split is safe here
   const ddl = schemaSql
@@ -188,12 +195,12 @@ app.post('/api/admin/migrate', async (c) => {
     ),
     ...insert(
       'story_acts',
-      ['id', 'act_number', 'slug', 'title', 'subtitle', 'body_mdx', 'lenis_lerp', 'higgsfield_loop_url', 'poster_url', 'elevenlabs_audio_url', 'palette'],
+      ['id', 'act_number', 'slug', 'title', 'subtitle', 'body_mdx', 'lenis_lerp', 'higgsfield_loop_url', 'higgsfield_loop_url_b', 'poster_url', 'elevenlabs_audio_url', 'palette'],
       ACTS as unknown as Record<string, unknown>[]
     ),
     ...insert(
       'video_scenes',
-      ['id', 'slug', 'title', 'chapter_slug', 'sequence', 'duration_seconds', 'video_url', 'poster_url', 'transcript_text', 'narration_audio_url', 'higgsfield_prompt', 'elevenlabs_voice_id', 'status'],
+      ['id', 'slug', 'title', 'chapter_slug', 'sequence', 'duration_seconds', 'video_url', 'video_url_b', 'poster_url', 'transcript_text', 'narration_audio_url', 'higgsfield_prompt', 'elevenlabs_voice_id', 'status'],
       VIDEO_SCENES as unknown as Record<string, unknown>[]
     ),
     ...insert(

@@ -7,6 +7,7 @@ import { fetchSceneStatistics, fetchSources, fetchStatistics, fetchVideoScenes }
 import { useSkepticMode } from '../context/SkepticModeContext'
 import { analytics } from '../analytics/ga'
 import StatOverlay from './StatOverlay'
+import CrossfadeLoop, { type CrossfadeLoopHandle } from './CrossfadeLoop'
 import { buildSceneCues } from '../utils/captions'
 
 const sceneDuration = (s: VideoScene) => s.duration_seconds ?? 60
@@ -47,7 +48,7 @@ export default function CinematicPlayer() {
   const [evidence, setEvidence] = useState<Statistic | null>(null)
   const [ended, setEnded] = useState(false)
 
-  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const videoRef = useRef<CrossfadeLoopHandle | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const overlayEls = useRef(new Map<string, HTMLButtonElement>())
   const tlRef = useRef<gsap.core.Timeline | null>(null)
@@ -221,7 +222,7 @@ export default function CinematicPlayer() {
     }
     playingRef.current = true
     setPlaying(true)
-    videoRef.current?.play().catch(() => {})
+    videoRef.current?.play()
     audioRef.current?.play().catch(() => {})
     // hand the soundstage to the narration — AmbientAudio listens
     window.dispatchEvent(new Event('sod:cinema-playing'))
@@ -240,7 +241,7 @@ export default function CinematicPlayer() {
   // soundstage on unmount
   useEffect(() => {
     if (playing) {
-      videoRef.current?.play().catch(() => {})
+      videoRef.current?.play()
       audioRef.current?.play().catch(() => {})
     }
   }, [playing, sceneIdx])
@@ -341,24 +342,22 @@ export default function CinematicPlayer() {
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-asphalt">
-      {/* Frame: Higgsfield mood loop, or the styled storyboard placeholder */}
+      {/* Frame: A/B Higgsfield loops crossfading, or the storyboard placeholder */}
       {scene.video_url ? (
-        <video
+        <div
           key={scene.id}
-          ref={videoRef}
-          // portrait: letterbox the full frame; landscape: fill the screen
-          className={`absolute inset-0 h-full w-full object-cover portrait:object-contain ${
-            scene.chapter_slug === 'act-5' ? 'grayscale contrast-90' : ''
-          }`}
-          src={scene.video_url}
-          poster={scene.poster_url ?? undefined}
-          loop
-          muted
-          playsInline
-          onLoadedData={() => {
-            if (playingRef.current) videoRef.current?.play().catch(() => {})
-          }}
-        />
+          className={`absolute inset-0 ${scene.chapter_slug === 'act-5' ? 'grayscale contrast-90' : ''}`}
+        >
+          <CrossfadeLoop
+            ref={videoRef}
+            srcA={scene.video_url}
+            srcB={scene.video_url_b}
+            poster={scene.poster_url}
+            // portrait: letterbox the full frame; landscape: fill the screen
+            videoClassName="object-cover portrait:object-contain"
+            autoPlay={false}
+          />
+        </div>
       ) : (
         <AnimatePresence mode="wait">
           <motion.div

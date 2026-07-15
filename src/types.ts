@@ -10,6 +10,8 @@ export interface StoryAct {
   body_mdx: string
   lenis_lerp: number
   higgsfield_loop_url: string | null
+  /** second composition of the same moment — crossfades with the first */
+  higgsfield_loop_url_b?: string | null
   poster_url: string | null
   elevenlabs_audio_url: string | null
   palette: 'dark' | 'desaturated' | 'seedling' | string
@@ -47,6 +49,8 @@ export interface VideoScene {
   sequence: number
   duration_seconds: number | null
   video_url: string | null
+  /** second composition — crossfades with the first while the scene plays */
+  video_url_b?: string | null
   poster_url: string | null
   transcript_text: string | null
   narration_audio_url: string | null

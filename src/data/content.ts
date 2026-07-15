@@ -854,6 +854,7 @@ export const ACTS: StoryAct[] = ACTS_BASE.map((a) =>
     : {
         ...a,
         higgsfield_loop_url: `/media/scenes/${a.slug}.mp4`,
+        higgsfield_loop_url_b: `/media/scenes/${a.slug}-b.mp4`,
         poster_url: `/media/posters/${a.slug}.jpg`,
       }
 )
@@ -887,6 +888,7 @@ const scene = (
   sequence: n,
   duration_seconds,
   video_url: `/media/scenes/${slug}.mp4`,
+  video_url_b: `/media/scenes/${slug}-b.mp4`,
   poster_url: `/media/posters/${slug}.jpg`,
   transcript_text,
   narration_audio_url: `/media/narration/${slug}.mp3`,
@@ -971,7 +973,7 @@ export const VIDEO_SCENES: VideoScene[] = [
     'the-cross-examination',
     'The Cross-Examination',
     'act-7',
-    60,
+    56,
     'There is a voice that says he should have done better. Cross-examine it. From emancipation to nineteen eighty, the racial wealth gap was closing. Then it reversed — on our watch. Deon inherited one-tenth the cushion. The violence reached him before school did: toxic stress by kindergarten, funerals by fifteen, trauma at combat-veteran rates — and in a national sample, exposure explained one hundred percent of the gap. Arithmetic, not character. Black men were imprisoned for drugs at thirteen times the white rate, for the same behavior. One in five will be imprisoned in his lifetime. So keep your intelligence, your discipline, your faith. Remove only the cushion. If you cannot say your life would look any different, then do better was never an explanation. It was an excuse.',
     'The ledger from the opening, reopened. The camera moves down the columns slowly, reading back what was written before he had a name.'
   ),
@@ -987,16 +989,13 @@ export const VIDEO_SCENES: VideoScene[] = [
   ),
 ].map((s) =>
   // The closing argument returns to the ledger from the cold open — a
-  // bookend, not new footage. Its ElevenLabs narration is pending
-  // (Higgsfield credits); the player holds un-narrated scenes out of the
-  // cut until narration_audio_url is set.
+  // bookend, not new footage.
   s.slug === 'the-cross-examination'
     ? {
         ...s,
         video_url: '/media/scenes/the-ledger.mp4',
+        video_url_b: '/media/scenes/the-ledger-b.mp4',
         poster_url: '/media/posters/the-ledger.jpg',
-        narration_audio_url: null,
-        status: 'awaiting-narration',
       }
     : s
 )
@@ -1018,11 +1017,11 @@ export const VIDEO_SCENE_STATISTICS: VideoSceneStatistic[] = [
   { video_scene_id: 'vs-6', statistic_id: 'st-a5-mandmin', timestamp_start_seconds: 14, timestamp_end_seconds: 22, display_mode: 'overlay' },
   { video_scene_id: 'vs-7', statistic_id: 'st-a6-callback', timestamp_start_seconds: 6, timestamp_end_seconds: 15, display_mode: 'overlay' },
   { video_scene_id: 'vs-7', statistic_id: 'st-a6-unemployment', timestamp_start_seconds: 16, timestamp_end_seconds: 23, display_mode: 'overlay' },
-  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-wealth-reversal', timestamp_start_seconds: 5, timestamp_end_seconds: 12, display_mode: 'overlay' },
-  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-wealth-ratio', timestamp_start_seconds: 13, timestamp_end_seconds: 19, display_mode: 'overlay' },
-  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-polyvic', timestamp_start_seconds: 24, timestamp_end_seconds: 32, display_mode: 'overlay' },
-  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-drug-13x', timestamp_start_seconds: 33, timestamp_end_seconds: 39, display_mode: 'overlay' },
-  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-onein5', timestamp_start_seconds: 40, timestamp_end_seconds: 46, display_mode: 'overlay' },
+  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-wealth-reversal', timestamp_start_seconds: 5, timestamp_end_seconds: 11, display_mode: 'overlay' },
+  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-wealth-ratio', timestamp_start_seconds: 12, timestamp_end_seconds: 18, display_mode: 'overlay' },
+  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-polyvic', timestamp_start_seconds: 22, timestamp_end_seconds: 29, display_mode: 'overlay' },
+  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-drug-13x', timestamp_start_seconds: 30, timestamp_end_seconds: 36, display_mode: 'overlay' },
+  { video_scene_id: 'vs-8', statistic_id: 'st-a7x-onein5', timestamp_start_seconds: 37, timestamp_end_seconds: 43, display_mode: 'overlay' },
   { video_scene_id: 'vs-9', statistic_id: 'st-a7-education', timestamp_start_seconds: 8, timestamp_end_seconds: 15, display_mode: 'overlay' },
   { video_scene_id: 'vs-9', statistic_id: 'st-a7-parent', timestamp_start_seconds: 17, timestamp_end_seconds: 25, display_mode: 'overlay' },
 ]
