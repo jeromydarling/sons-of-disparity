@@ -57,9 +57,11 @@ export default function StoryPage() {
       <header className="relative flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
         <Link
           to="/"
-          className="absolute top-8 left-6 font-mono text-xs uppercase tracking-wider text-fog/40 hover:text-fog transition-colors"
+          className="absolute top-4 left-4 z-40 border border-fog/20 bg-asphalt/70 px-3 py-2 backdrop-blur-sm
+                     font-mono text-[11px] sm:text-xs uppercase tracking-wider text-fog/70 hover:text-marble transition-colors"
         >
-          ← Sons of Disparity
+          ← <span className="hidden sm:inline">Sons of Disparity</span>
+          <span className="sm:hidden">Home</span>
         </Link>
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-fog mb-6">
           Scroll the record

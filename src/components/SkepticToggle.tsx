@@ -17,7 +17,7 @@ export default function SkepticToggle() {
         analytics.skepticToggled(!skepticMode)
       }}
       aria-pressed={skepticMode}
-      className={`px-4 py-2.5 font-mono text-xs uppercase tracking-wider border backdrop-blur-sm
+      className={`px-3 py-2 sm:px-4 sm:py-2.5 font-mono text-[11px] sm:text-xs uppercase tracking-wider border backdrop-blur-sm
                   transition-colors duration-300 shadow-[0_2px_16px_rgba(0,0,0,0.5)]
                   ${
                     skepticMode
@@ -25,7 +25,8 @@ export default function SkepticToggle() {
                       : 'bg-asphalt/85 border-marble/40 text-marble/90 hover:border-marble hover:bg-asphalt'
                   }`}
     >
-      {skepticMode ? 'Skeptic Mode: ON' : 'Skeptic Mode'}
+      <span className="sm:hidden">{skepticMode ? 'Skeptic ✓' : 'Skeptic'}</span>
+      <span className="hidden sm:inline">{skepticMode ? 'Skeptic Mode: ON' : 'Skeptic Mode'}</span>
     </button>
   )
 }

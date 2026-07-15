@@ -89,7 +89,7 @@ export default function AmbientAudio() {
       aria-pressed={enabled}
       aria-label={enabled ? 'Mute background music' : 'Play background music'}
       title="“It Makes a Long Time Man Feel Bad” — traditional work song"
-      className={`flex items-center gap-2 border px-4 py-2.5 font-mono text-xs uppercase tracking-wider
+      className={`flex items-center gap-2 border px-3 py-2 sm:px-4 sm:py-2.5 font-mono text-[11px] sm:text-xs uppercase tracking-wider
                   backdrop-blur-sm transition-colors duration-300 shadow-[0_2px_16px_rgba(0,0,0,0.5)]
                   ${
                     enabled
@@ -98,7 +98,8 @@ export default function AmbientAudio() {
                   }`}
     >
       <span className={`text-sm leading-none ${enabled ? '' : 'opacity-50'}`}>♪</span>
-      {enabled ? 'Sound on' : 'Sound off'}
+      <span className="hidden sm:inline">{enabled ? 'Sound on' : 'Sound off'}</span>
+      <span className="sm:hidden">{enabled ? 'On' : 'Off'}</span>
     </button>
   )
 }

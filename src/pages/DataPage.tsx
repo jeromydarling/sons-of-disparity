@@ -19,7 +19,7 @@ const ACT_TITLES: Record<number, string> = {
 }
 
 export default function DataPage() {
-  const { skepticMode, toggleSkepticMode } = useSkepticMode()
+  const { skepticMode } = useSkepticMode()
   const [stats, setStats] = useState<Statistic[]>([])
   const [sources, setSources] = useState<Source[]>([])
 
@@ -53,20 +53,8 @@ export default function DataPage() {
         >
           ← Sons of Disparity
         </Link>
-        <div className="mb-10 flex items-center justify-between">
-          <h1 className="font-serif text-4xl font-light text-marble">The Data</h1>
-          <button
-            onClick={() => {
-              toggleSkepticMode()
-              analytics.skepticToggled(!skepticMode)
-            }}
-            className={`skeptic-badge cursor-pointer transition-all ${
-              skepticMode ? 'bg-brick/40 border-brick/60' : ''
-            }`}
-          >
-            {skepticMode ? 'Skeptic Mode: ON' : 'Skeptic Mode'}
-          </button>
-        </div>
+        {/* The global Skeptic Mode toggle lives in the top-right controls */}
+        <h1 className="mb-10 font-serif text-4xl font-light text-marble">The Data</h1>
         {skepticMode && (
           <div className="mb-8 border-l-2 border-brick bg-brick/10 px-4 py-3">
             <p className="font-mono text-xs text-brick/80">

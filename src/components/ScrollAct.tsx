@@ -91,8 +91,10 @@ export default function ScrollAct({ act, onEnter, onLeave, stats = [], children 
         ) : (
           <div className="h-full w-full bg-gradient-to-b from-bruise to-asphalt" />
         )}
-        {/* Readability overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-asphalt/90 via-asphalt/70 to-transparent" />
+        {/* Readability overlays: full dim on mobile (text spans the whole
+            width), horizontal gradient on large screens */}
+        <div className="absolute inset-0 bg-asphalt/75 lg:hidden" />
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-asphalt/90 via-asphalt/70 to-transparent" />
       </div>
 
       <div className="relative mx-auto max-w-6xl px-6 py-32 lg:py-44 lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
