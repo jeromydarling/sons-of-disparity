@@ -19,6 +19,11 @@ const BURDENS = [
     weight: '66% vs 6% raised in high-poverty neighborhoods',
   },
   {
+    slug: 'violence-exposure-ptsd',
+    label: 'Bury friends young — and carry the untreated trauma',
+    weight: 'homicide the No. 1 cause of death at his age; 46% PTSD symptoms — combat-veteran rates',
+  },
+  {
     slug: 'suspension-disparity',
     label: 'Be suspended for what your classmate apologized for',
     weight: '3.6× more likely to be suspended',

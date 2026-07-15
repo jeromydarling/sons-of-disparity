@@ -204,6 +204,24 @@ export const SOURCES: Source[] = [
       'Consensus study of the National Academies. Documents the historical arc: the Black male incarceration rate roughly tripled between 1970 (~600 per 100,000) and 2000 (~1,800 per 100,000) as drug-war statutes, mandatory minimums, and truth-in-sentencing laws took hold.',
   },
   {
+    id: 'src-grady-trauma',
+    title: 'Trauma exposure and stress-related disorders in inner city primary care patients (Grady Trauma Project)',
+    publisher: 'General Hospital Psychiatry (Gillespie, Ressler et al.)',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/19555791/',
+    year: 2009,
+    methodology_note:
+      'Screening of thousands of low-income, predominantly Black primary-care patients in Atlanta. Roughly two-thirds reported serious violent trauma; about 46% showed significant PTSD symptoms — rates that rival or exceed those documented in combat veterans. Clinic-based sample, not a national rate; national surveys still find higher lifetime PTSD prevalence among Black Americans alongside roughly half the treatment access.',
+  },
+  {
+    id: 'src-cdc-wisqars',
+    title: 'WISQARS: Leading Causes of Death, Black males ages 15–34',
+    publisher: 'Centers for Disease Control and Prevention',
+    url: 'https://wisqars.cdc.gov/lcd/',
+    year: 2023,
+    methodology_note:
+      'National mortality data. Homicide is the number-one cause of death for Black males ages 15–34; for young white males the leading cause is unintentional injury, with homicide ranking far lower. This measures victimization and exposure — concentrated disadvantage and firearm access — not propensity.',
+  },
+  {
     id: 'src-harpers-ehrlichman',
     title: 'Legalize It All (the Ehrlichman interview)',
     publisher: 'Harper’s Magazine (Dan Baum)',
@@ -480,6 +498,32 @@ export const STATISTICS: Statistic[] = [
     display_style: 'card',
   },
   {
+    id: 'st-a7x-homicide',
+    act_number: 7,
+    slug: 'homicide-leading-cause',
+    short_claim: 'cause of death for Black males 15–34: homicide',
+    value_text: 'No. 1',
+    detail_text:
+      'For young white men, the leading cause is accidents; homicide ranks far lower. Deon attended funerals in high school that his white counterpart never had to imagine — and every one of them was also a lesson about what the world does with boys like him.',
+    source_id: 'src-cdc-wisqars',
+    skeptic_caveat:
+      'CDC mortality data. This measures victimization — who violence happens to — driven by concentrated disadvantage and firearm access. It says nothing about propensity, and everything about exposure.',
+    display_style: 'card',
+  },
+  {
+    id: 'st-a7x-ptsd',
+    act_number: 7,
+    slug: 'violence-exposure-ptsd',
+    short_claim: 'of one studied inner-city Black community showed significant PTSD symptoms',
+    value_text: '46%',
+    detail_text:
+      'In the Grady Trauma Project — thousands of low-income, mostly Black Atlantans — two-thirds reported serious violent trauma, and nearly half carried significant PTSD symptoms: rates that rival combat veterans. A war’s worth of injury with no discharge papers, no VA, and no parade.',
+    source_id: 'src-grady-trauma',
+    skeptic_caveat:
+      'A clinic-based sample, not a national prevalence rate — stated plainly. National surveys still find higher lifetime PTSD among Black Americans than white Americans, treated at roughly half the rate. The conservative reading is still extraordinary.',
+    display_style: 'card',
+  },
+  {
     id: 'st-a7x-onein5',
     act_number: 7,
     slug: 'lifetime-one-in-five',
@@ -704,8 +748,9 @@ const ACTS_BASE: StoryAct[] = [
       'There is a voice that has been reading over your shoulder since Act One. It is patient and reasonable and it says: plenty of people grow up poor and never see a cell. He should have done better. Say it out loud — it deserves a real answer, not a wince.',
       'So run the cross-examination. Not of Deon — of the voice. Start with the cushion. From emancipation until 1980, the wealth gap between Black and white America was actually closing, about 1.5% a year through the civil-rights era. Then it stopped. Since 1980 — the decades Deon’s mother was working double shifts, the decades the drug war was built — it has widened. That is not slavery-era residue. That is a reversal, in living memory, on our watch.',
       'Now the enforcement. At the height of the War on Drugs, Black men were sent to state prison on drug charges at thirteen times the rate of white men — for behavior the surveys say both groups did at similar rates. In seven states, eight or nine of every ten people imprisoned for drugs were Black. The Black male incarceration rate tripled between 1970 and 2000. The signs that said whites only came down; the statutes went up. The tools changed. The damage learned to fill out paperwork.',
+      'And before any court ever touched him, the violence had. Homicide is the number-one cause of death for Black men Deon’s age — for his white counterpart it does not crack the top of the list. In one landmark study of a low-income Black community, two-thirds had survived serious violent trauma and nearly half carried significant symptoms of PTSD — rates that rival soldiers returning from combat. Deon attended funerals in high school. Nobody screened him. Nobody treated him. A war’s worth of injury, and the country that drafted him into it called the aftermath a behavior problem.',
       'Be precise about what this chapter does not claim. It does not claim nothing improved — life expectancy rose, the lifetime-imprisonment estimate for Deon’s generation has fallen from one in three to one in five, and both facts are stated here plainly. The claim is narrower and harder: the machinery became less visible, more administratively normalized, and still devastating. A record does today what a sign did then, and the record never has to mention race.',
-      'Now the mirror. Keep everything you are proud of — your intelligence, your discipline, your faith, your mother’s love. Remove only the cushion. Give yourself one-tenth the wealth behind you, the hallway that records you, the stop that searches you, the bail you cannot post, the plea math that runs against you, the charge filed heavier. Stack them, one by one, below.',
+      'Now the mirror. Keep everything you are proud of — your intelligence, your discipline, your faith, your mother’s love. Remove only the cushion. Give yourself one-tenth the wealth behind you, the funerals at fifteen and the untreated weight they left, the hallway that records you, the stop that searches you, the bail you cannot post, the plea math that runs against you, the charge filed heavier. Stack them, one by one, below.',
       'If you cannot say with certainty that you would have come through untouched, then “do better” was never an explanation. It was an excuse — a system counting on distance, so the comfortable could call structural injury a character flaw.'
     ),
     lenis_lerp: 0.08,
