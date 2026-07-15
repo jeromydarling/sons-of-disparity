@@ -63,7 +63,10 @@ export default function CinematicPlayer() {
     Promise.all([fetchVideoScenes(), fetchSceneStatistics(), fetchStatistics(), fetchSources()]).then(
       ([sc, li, st, so]) => {
         if (!alive) return
-        setScenes([...sc].sort((a, b) => a.sequence - b.sequence))
+        // scenes still awaiting their ElevenLabs narration stay out of the cut
+        setScenes(
+          sc.filter((s) => s.narration_audio_url).sort((a, b) => a.sequence - b.sequence)
+        )
         setLinks(li)
         setStats(st)
         setSources(so)
