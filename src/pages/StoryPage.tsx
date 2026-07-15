@@ -7,6 +7,7 @@ import { analytics } from '../analytics/ga'
 import ScrollAct from '../components/ScrollAct'
 import RecordFollows from '../components/RecordFollows'
 import TheSameMistake from '../components/TheSameMistake'
+import BurdenAccumulator from '../components/BurdenAccumulator'
 
 /** Which record stage (0..5) the file has reached after a given act. */
 const stageForAct = (actNumber: number) => Math.max(0, Math.min(actNumber - 1, 5))
@@ -87,7 +88,11 @@ export default function StoryPage() {
             onLeave={handleLeave}
             stats={stats.filter((s) => s.act_number === act.act_number)}
           >
-            {act.act_number === 4 ? <TheSameMistake /> : undefined}
+            {act.act_number === 4 ? (
+              <TheSameMistake />
+            ) : act.slug === 'the-cross-examination' ? (
+              <BurdenAccumulator />
+            ) : undefined}
           </ScrollAct>
 
           {/* Mobile: interstitial full-screen panel — the record morphs between acts */}

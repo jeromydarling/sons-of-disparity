@@ -15,7 +15,8 @@ const ACT_TITLES: Record<number, string> = {
   4: 'Act IV — The Plea',
   5: 'Act V — The Count',
   6: 'Act VI — The Box',
-  7: 'Act VII — The Nursery',
+  7: 'Act VII — The Cross-Examination',
+  8: 'Act VIII — The Nursery',
 }
 
 export default function DataPage() {

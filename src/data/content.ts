@@ -158,6 +158,60 @@ export const SOURCES: Source[] = [
     methodology_note:
       'Multivariate regression of federal sentences controlling for guideline factors. The Commission’s estimated Black–white sentence gap for similarly situated men has ranged from about 10% to 20% across report periods and specifications.',
   },
+  {
+    id: 'src-nber-wealth',
+    title: 'The Wealth of Two Nations: The U.S. Racial Wealth Gap, 1860–2020',
+    publisher: 'Quarterly Journal of Economics (Derenoncourt, Kim, Kuhn & Schularick)',
+    url: 'https://www.nber.org/papers/w30101',
+    year: 2024,
+    methodology_note:
+      'Reconstructs 160 years of Black and white wealth from census, tax, and survey records. The white-to-Black per-capita wealth ratio fell from roughly 60:1 at emancipation, converged at about 1.5% per year through 1980 — then stopped converging and began widening again. The counterfactual with equal wealth-accumulating conditions since emancipation is roughly 3:1; the observed ratio is about 6:1.',
+  },
+  {
+    id: 'src-census-wealth',
+    title: 'The Wealth of Households: 2021',
+    publisher: 'U.S. Census Bureau',
+    url: 'https://www.census.gov/library/publications/2023/demo/p70br-183.html',
+    year: 2023,
+    methodology_note:
+      'Survey of Income and Program Participation (SIPP) tabulations. Median household wealth: $250,400 for white householders vs. $24,520 for Black householders. Medians understate the gap at the top — mean gaps are larger. White households (about 65% of households) hold roughly 80% of all wealth; Black households (13.6%) hold 4.7%.',
+  },
+  {
+    id: 'src-hrw-drugs',
+    title: 'Punishment and Prejudice: Racial Disparities in the War on Drugs',
+    publisher: 'Human Rights Watch',
+    url: 'https://www.hrw.org/reports/2000/usa/',
+    year: 2000,
+    methodology_note:
+      'State prison admission data from the height of the drug war. Black men were admitted to state prison on drug charges at 13 times the white male rate nationally; in seven states Black people were 80–90% of drug admissions. National survey data (NHSDA) showed drug use rates that were similar across races — the disparity is in enforcement, not use.',
+  },
+  {
+    id: 'src-sentencing-onein5',
+    title: 'One in Five: Racial Disparity in Imprisonment — Causes and Consequences',
+    publisher: 'The Sentencing Project',
+    url: 'https://www.sentencingproject.org/reports/one-in-five-racial-disparity-in-imprisonment-causes-and-consequences/',
+    year: 2023,
+    methodology_note:
+      'Updates the lifetime-imprisonment estimate using current (not 2001) incarceration rates: roughly 1 in 5 Black men born in 2001, down from the 1-in-3 projection made at their birth. Progress is real and stated plainly — and the remaining disparity is still roughly four times the white rate.',
+  },
+  {
+    id: 'src-nrc-growth',
+    title: 'The Growth of Incarceration in the United States: Exploring Causes and Consequences',
+    publisher: 'National Research Council',
+    url: 'https://nap.nationalacademies.org/catalog/18613/the-growth-of-incarceration-in-the-united-states-exploring-causes',
+    year: 2014,
+    methodology_note:
+      'Consensus study of the National Academies. Documents the historical arc: the Black male incarceration rate roughly tripled between 1970 (~600 per 100,000) and 2000 (~1,800 per 100,000) as drug-war statutes, mandatory minimums, and truth-in-sentencing laws took hold.',
+  },
+  {
+    id: 'src-harpers-ehrlichman',
+    title: 'Legalize It All (the Ehrlichman interview)',
+    publisher: 'Harper’s Magazine (Dan Baum)',
+    url: 'https://harpers.org/archive/2016/04/legalize-it-all/',
+    year: 2016,
+    methodology_note:
+      'Quote from a 1994 interview with Nixon domestic-policy advisor John Ehrlichman, published by Baum in 2016. Treat with care: Ehrlichman died in 1999, his family disputes the quote, and some historians read it as embittered exaggeration. It is presented here as a contested confession — the enforcement statistics stand on their own with or without it.',
+  },
 ]
 
 // ---------------------------------------------------------------------------
@@ -314,7 +368,7 @@ export const STATISTICS: Statistic[] = [
       'At the incarceration rates of 2001 — the year Deon was born — 1 in 3 Black boys could expect to be imprisoned in his lifetime. For white boys: 1 in 17.',
     source_id: 'src-bjs-prevalence',
     skeptic_caveat:
-      'A projection from 2001 rates, not a measured outcome. Incarceration has fallen since, so the realized number for this cohort will be lower — the disparity ratio between the two projections has persisted.',
+      'A projection from 2001 rates, not a measured outcome. Incarceration has fallen since: The Sentencing Project’s 2023 update puts the lifetime likelihood for this cohort at roughly 1 in 5 — lower, and still about four times the white rate. Act VII uses the updated number.',
     display_style: 'card',
   },
   {
@@ -372,10 +426,77 @@ export const STATISTICS: Statistic[] = [
     display_style: 'card',
   },
 
-  // --- Act 7 — The Nursery
+  // --- Act 7 — The Cross-Examination
+  {
+    id: 'st-a7x-wealth-ratio',
+    act_number: 7,
+    slug: 'wealth-ratio-today',
+    short_claim: 'median white vs Black household wealth',
+    value_text: '10:1',
+    detail_text:
+      '$250,400 to $24,520. Before any choice Deon ever made, the cushion under him was one-tenth the size — the margin that absorbs a bad year, a bail bond, a first mistake.',
+    source_id: 'src-census-wealth',
+    skeptic_caveat:
+      'Median household wealth from Census SIPP tabulations (2021). Medians are the conservative choice: mean gaps are larger. Per-capita estimates put the ratio near 6:1.',
+    display_style: 'card',
+  },
+  {
+    id: 'st-a7x-wealth-reversal',
+    act_number: 7,
+    slug: 'wealth-gap-reversal',
+    short_claim: 'the year the racial wealth gap stopped closing',
+    value_text: '1980',
+    detail_text:
+      'From emancipation to 1980 the gap converged — about 1.5% a year through the civil-rights era. Since 1980 it has widened. Had conditions been equal for 150 years, the ratio would be near 3:1. It is roughly 6:1.',
+    source_id: 'src-nber-wealth',
+    skeptic_caveat:
+      '160 years of reconstructed wealth data (census, tax, and survey records). The reversal is not a projection — it is the observed trend since 1980, the same decades the drug war built.',
+    display_style: 'card',
+  },
+  {
+    id: 'st-a7x-drug-13x',
+    act_number: 7,
+    slug: 'drug-imprisonment-13x',
+    short_claim: 'rate Black men were imprisoned for drugs vs white men',
+    value_text: '13×',
+    detail_text:
+      'At the height of the War on Drugs, Black men entered state prison on drug charges at 13 times the white rate. In seven states, 80–90% of the people sent to prison for drugs were Black. Drug use rates, by survey, were similar.',
+    source_id: 'src-hrw-drugs',
+    skeptic_caveat:
+      '1996 state admissions data. The ratio has narrowed since — and remains a multiple, not a margin. The behavior was shared; the punishment was not.',
+    display_style: 'card',
+  },
+  {
+    id: 'st-a7x-tripled',
+    act_number: 7,
+    slug: 'incarceration-tripled',
+    short_claim: 'growth of the Black male incarceration rate, 1970–2000',
+    value_text: '3×',
+    detail_text:
+      'Roughly 600 per 100,000 in 1970. Roughly 1,800 by 2000. The signs came down in the sixties; the statutes went up in the eighties.',
+    source_id: 'src-nrc-growth',
+    skeptic_caveat:
+      'National Academies consensus figures. White incarceration also rose — the ratio between the two stayed between roughly 5:1 and 8:1 throughout.',
+    display_style: 'card',
+  },
+  {
+    id: 'st-a7x-onein5',
+    act_number: 7,
+    slug: 'lifetime-one-in-five',
+    short_claim: 'Black men born in 2001 likely to be imprisoned — current estimate',
+    value_text: '1 in 5',
+    detail_text:
+      'The updated estimate, using today’s rates instead of 2001’s. Better than the 1-in-3 projected at Deon’s birth — real progress, honestly stated. And still roughly four times the odds his white counterpart carries.',
+    source_id: 'src-sentencing-onein5',
+    skeptic_caveat:
+      'This figure replaces the older 1-in-3 projection with current methodology — cited here deliberately, because the argument does not need the bigger number to stand.',
+    display_style: 'card',
+  },
+
+  // --- Act 8 — The Nursery
   {
     id: 'st-a7-parent',
-    act_number: 7,
+    act_number: 8,
     slug: 'parental-incarceration',
     short_claim: 'Black children who have had a parent incarcerated',
     value_text: '1 in 9',
@@ -388,7 +509,7 @@ export const STATISTICS: Statistic[] = [
   },
   {
     id: 'st-a7-education',
-    act_number: 7,
+    act_number: 8,
     slug: 'correctional-education',
     short_claim: 'lower odds of returning to prison with correctional education',
     value_text: '43%',
@@ -574,8 +695,28 @@ const ACTS_BASE: StoryAct[] = [
     palette: 'dark',
   },
   {
-    id: 'act-7',
+    id: 'act-7x',
     act_number: 7,
+    slug: 'the-cross-examination',
+    title: 'The Cross-Examination',
+    subtitle: 'The voice that says he should have done better',
+    body_mdx: p(
+      'There is a voice that has been reading over your shoulder since Act One. It is patient and reasonable and it says: plenty of people grow up poor and never see a cell. He should have done better. Say it out loud — it deserves a real answer, not a wince.',
+      'So run the cross-examination. Not of Deon — of the voice. Start with the cushion. From emancipation until 1980, the wealth gap between Black and white America was actually closing, about 1.5% a year through the civil-rights era. Then it stopped. Since 1980 — the decades Deon’s mother was working double shifts, the decades the drug war was built — it has widened. That is not slavery-era residue. That is a reversal, in living memory, on our watch.',
+      'Now the enforcement. At the height of the War on Drugs, Black men were sent to state prison on drug charges at thirteen times the rate of white men — for behavior the surveys say both groups did at similar rates. In seven states, eight or nine of every ten people imprisoned for drugs were Black. The Black male incarceration rate tripled between 1970 and 2000. The signs that said whites only came down; the statutes went up. The tools changed. The damage learned to fill out paperwork.',
+      'Be precise about what this chapter does not claim. It does not claim nothing improved — life expectancy rose, the lifetime-imprisonment estimate for Deon’s generation has fallen from one in three to one in five, and both facts are stated here plainly. The claim is narrower and harder: the machinery became less visible, more administratively normalized, and still devastating. A record does today what a sign did then, and the record never has to mention race.',
+      'Now the mirror. Keep everything you are proud of — your intelligence, your discipline, your faith, your mother’s love. Remove only the cushion. Give yourself one-tenth the wealth behind you, the hallway that records you, the stop that searches you, the bail you cannot post, the plea math that runs against you, the charge filed heavier. Stack them, one by one, below.',
+      'If you cannot say with certainty that you would have come through untouched, then “do better” was never an explanation. It was an excuse — a system counting on distance, so the comfortable could call structural injury a character flaw.'
+    ),
+    lenis_lerp: 0.08,
+    higgsfield_loop_url: null,
+    poster_url: null,
+    elevenlabs_audio_url: null,
+    palette: 'dark',
+  },
+  {
+    id: 'act-7',
+    act_number: 8,
     slug: 'the-nursery',
     title: 'The Nursery',
     subtitle: '2026',
@@ -594,11 +735,16 @@ const ACTS_BASE: StoryAct[] = [
   },
 ]
 
-export const ACTS: StoryAct[] = ACTS_BASE.map((a) => ({
-  ...a,
-  higgsfield_loop_url: `/media/scenes/${a.slug}.mp4`,
-  poster_url: `/media/posters/${a.slug}.jpg`,
-}))
+export const ACTS: StoryAct[] = ACTS_BASE.map((a) =>
+  // The cross-examination has no film — the interrogation room stays dark.
+  a.slug === 'the-cross-examination'
+    ? a
+    : {
+        ...a,
+        higgsfield_loop_url: `/media/scenes/${a.slug}.mp4`,
+        poster_url: `/media/posters/${a.slug}.jpg`,
+      }
+)
 
 // ---------------------------------------------------------------------------
 // Video scenes (cinema mode) — Higgsfield loops (kling3_0_turbo, 10s, muted)
@@ -712,7 +858,7 @@ export const VIDEO_SCENES: VideoScene[] = [
     8,
     'the-nursery',
     'The Nursery',
-    'act-7',
+    'act-8',
     
 37,
     'Twenty twenty-six. A boy named Marcus is born to a father who is watchful, and means it as a compliment. The class Deon started inside became a certificate outside: education in prison cuts the odds of going back by forty-three percent. One in nine Black children has had a parent behind bars — the record follows families. But Marcus’s file is empty. It is still mostly blank. This is the only scene with color in it. Hold the pen.',
