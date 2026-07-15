@@ -19,9 +19,14 @@ const BURDENS = [
     weight: '66% vs 6% raised in high-poverty neighborhoods',
   },
   {
+    slug: 'toxic-stress-kindergarten',
+    label: 'Carry toxic stress before your first day of school',
+    weight: '45% more likely to face threatening experiences by age 5 — stress that stunts prefrontal growth',
+  },
+  {
     slug: 'violence-exposure-ptsd',
     label: 'Bury friends young — and carry the untreated trauma',
-    weight: 'homicide the No. 1 cause of death at his age; 46% PTSD symptoms — combat-veteran rates',
+    weight: '72–100% of studied inner-city children witnessed violence; 46% PTSD symptoms — combat-veteran rates',
   },
   {
     slug: 'suspension-disparity',

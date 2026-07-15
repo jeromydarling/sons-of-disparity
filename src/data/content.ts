@@ -204,6 +204,33 @@ export const SOURCES: Source[] = [
       'Consensus study of the National Academies. Documents the historical arc: the Black male incarceration rate roughly tripled between 1970 (~600 per 100,000) and 2000 (~1,800 per 100,000) as drug-war statutes, mandatory minimums, and truth-in-sentencing laws took hold.',
   },
   {
+    id: 'src-osofsky',
+    title: 'The Impact of Violence on Children',
+    publisher: 'The Future of Children (Joy D. Osofsky)',
+    url: 'https://www.jstor.org/stable/1602780',
+    year: 1999,
+    methodology_note:
+      'Review of neighborhood studies: 72% of fifth- and sixth-graders in a low-income Washington, D.C. neighborhood had witnessed violence; 91% of 9–12-year-olds in a New Orleans neighborhood; in a 2019 Detroit sample, all 432 adolescents had. Small, localized samples spanning the early-90s crime peak to 2019, with varying definitions of "exposure" — the range is the spread of measured witnessing rates in poor inner-city neighborhoods, not one national figure.',
+  },
+  {
+    id: 'src-epi-toxic',
+    title: 'Toxic Stress and Children’s Outcomes',
+    publisher: 'Economic Policy Institute (Leila Morsy & Richard Rothstein)',
+    url: 'https://www.epi.org/publication/toxic-stress-and-childrens-outcomes-african-american-children-growing-up-poor-are-at-greater-risk-of-disrupted-physiological-functioning-and-depressed-academic-achievement/',
+    year: 2019,
+    methodology_note:
+      'Literature synthesis anchored in Jimenez et al. (Pediatrics, 2016; 1,007 children surveyed at age 5) and the toxic-stress physiology literature (Shonkoff et al.). Key finding, verbatim: “Black children are more likely than white children to be exposed to frightening or threatening experiences” — 45% more likely to have one such exposure, 29% more likely two, 21% more likely three or more. The authors claim only “a suggestion of causality” for outcomes; the underlying comparisons control for income and maternal education.',
+  },
+  {
+    id: 'src-andrews-polyvic',
+    title: 'Polyvictimization, Income, and Ethnic Differences in Trauma-Related Mental Health During Adolescence',
+    publisher: 'Social Psychiatry and Psychiatric Epidemiology (Andrews et al.)',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/26048339/',
+    year: 2015,
+    methodology_note:
+      'National probability sample of 3,312 U.S. adolescents. Black youth reported more trauma-related symptoms than white youth — and polyvictimization fully accounted for the difference. Consistent clinic-based finding: Douglas et al. (Journal of Traumatic Stress, 2021) — “Black youth reported significantly elevated posttraumatic stress and maladaptive grief symptoms through higher polyvictimization and violent death exposure relative to White youth.” Cross-sectional, self-report designs; the mediation direction awaits longitudinal replication.',
+  },
+  {
     id: 'src-grady-trauma',
     title: 'Trauma exposure and stress-related disorders in inner city primary care patients (Grady Trauma Project)',
     publisher: 'General Hospital Psychiatry (Gillespie, Ressler et al.)',
@@ -498,6 +525,45 @@ export const STATISTICS: Statistic[] = [
     display_style: 'card',
   },
   {
+    id: 'st-a7x-toxic-stress',
+    act_number: 7,
+    slug: 'toxic-stress-kindergarten',
+    short_claim: 'more likely to face a frightening or threatening experience before kindergarten',
+    value_text: '45%',
+    detail_text:
+      '“Black children are more likely than white children to be exposed to frightening or threatening experiences.” When that stress becomes chronic — toxic — it can stunt growth in the prefrontal cortex: executive function, learning, memory, attention, emotional regulation. Before his first day of school.',
+    source_id: 'src-epi-toxic',
+    skeptic_caveat:
+      'EPI synthesis of Jimenez et al. (Pediatrics, 2016), controlling for income and maternal education; the authors claim only “a suggestion of causality” for later outcomes. The stress physiology itself (Shonkoff et al.) is not in dispute.',
+    display_style: 'card',
+  },
+  {
+    id: 'st-a7x-childhood-witness',
+    act_number: 7,
+    slug: 'childhood-violence-witness',
+    short_claim: 'of children in studied poor inner-city neighborhoods witnessed violence',
+    value_text: '72–100%',
+    detail_text:
+      '72% of fifth- and sixth-graders in a Washington, D.C. neighborhood. 91% of 9-to-12-year-olds in New Orleans. In a 2019 Detroit sample, all 432 adolescents. Deon’s exposure was not an outlier; it was the neighborhood median.',
+    source_id: 'src-osofsky',
+    skeptic_caveat:
+      'Localized samples with varying definitions of exposure, several from the early-90s crime peak; broader reviews find witnessing rates from 4% to 70% depending on measure and place. The honest claim is concentration — where poverty is concentrated, so is what children see.',
+    display_style: 'card',
+  },
+  {
+    id: 'st-a7x-polyvic',
+    act_number: 7,
+    slug: 'trauma-gap-explained',
+    short_claim: 'of the Black–white gap in youth trauma symptoms was explained by victimization exposure',
+    value_text: '100%',
+    detail_text:
+      'In a national probability sample of 3,312 adolescents, Black youth carried more trauma symptoms than white youth — and polyvictimization fully accounted for the difference. Nothing about the boy explains the gap. Everything about what reached him does.',
+    source_id: 'src-andrews-polyvic',
+    skeptic_caveat:
+      'Cross-sectional national survey; “fully accounted for” is a statistical mediation result, not a longitudinal proof. Clinic studies (Douglas et al., 2021) find the same pattern extending to maladaptive grief.',
+    display_style: 'card',
+  },
+  {
     id: 'st-a7x-homicide',
     act_number: 7,
     slug: 'homicide-leading-cause',
@@ -748,7 +814,8 @@ const ACTS_BASE: StoryAct[] = [
       'There is a voice that has been reading over your shoulder since Act One. It is patient and reasonable and it says: plenty of people grow up poor and never see a cell. He should have done better. Say it out loud — it deserves a real answer, not a wince.',
       'So run the cross-examination. Not of Deon — of the voice. Start with the cushion. From emancipation until 1980, the wealth gap between Black and white America was actually closing, about 1.5% a year through the civil-rights era. Then it stopped. Since 1980 — the decades Deon’s mother was working double shifts, the decades the drug war was built — it has widened. That is not slavery-era residue. That is a reversal, in living memory, on our watch.',
       'Now the enforcement. At the height of the War on Drugs, Black men were sent to state prison on drug charges at thirteen times the rate of white men — for behavior the surveys say both groups did at similar rates. In seven states, eight or nine of every ten people imprisoned for drugs were Black. The Black male incarceration rate tripled between 1970 and 2000. The signs that said whites only came down; the statutes went up. The tools changed. The damage learned to fill out paperwork.',
-      'And before any court ever touched him, the violence had. Homicide is the number-one cause of death for Black men Deon’s age — for his white counterpart it does not crack the top of the list. In one landmark study of a low-income Black community, two-thirds had survived serious violent trauma and nearly half carried significant symptoms of PTSD — rates that rival soldiers returning from combat. Deon attended funerals in high school. Nobody screened him. Nobody treated him. A war’s worth of injury, and the country that drafted him into it called the aftermath a behavior problem.',
+      'And before any court ever touched him, the violence had. It started before school did: Black children are 45 percent more likely than white children to face a frightening or threatening experience before kindergarten — and when that stress turns chronic, the developmental literature is blunt about what it does, stunting growth in the prefrontal cortex, the region that governs learning, attention, and emotional regulation. In the poor inner-city neighborhoods researchers actually measured, between 72 and 100 percent of children had witnessed violence. Not most. Nearly all.',
+      'Homicide is the number-one cause of death for Black men Deon’s age — for his white counterpart it does not crack the top of the list. In one landmark study of a low-income Black community, two-thirds had survived serious violent trauma and nearly half carried significant symptoms of PTSD — rates that rival soldiers returning from combat. And when a national sample asked why Black youth carry more trauma than white youth, the answer was arithmetic, not character: the difference was fully accounted for by how much violence had reached them. Deon attended funerals in high school. Nobody screened him. Nobody treated him. A war’s worth of injury, and the country that drafted him into it called the aftermath a behavior problem.',
       'Be precise about what this chapter does not claim. It does not claim nothing improved — life expectancy rose, the lifetime-imprisonment estimate for Deon’s generation has fallen from one in three to one in five, and both facts are stated here plainly. The claim is narrower and harder: the machinery became less visible, more administratively normalized, and still devastating. A record does today what a sign did then, and the record never has to mention race.',
       'Now the mirror. Keep everything you are proud of — your intelligence, your discipline, your faith, your mother’s love. Remove only the cushion. Give yourself one-tenth the wealth behind you, the funerals at fifteen and the untreated weight they left, the hallway that records you, the stop that searches you, the bail you cannot post, the plea math that runs against you, the charge filed heavier. Stack them, one by one, below.',
       'If you cannot say with certainty that you would have come through untouched, then “do better” was never an explanation. It was an excuse — a system counting on distance, so the comfortable could call structural injury a character flaw.'
