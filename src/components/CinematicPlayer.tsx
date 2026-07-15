@@ -343,7 +343,8 @@ export default function CinematicPlayer() {
         <video
           key={scene.id}
           ref={videoRef}
-          className={`absolute inset-0 h-full w-full object-cover ${
+          // portrait: letterbox the full frame; landscape: fill the screen
+          className={`absolute inset-0 h-full w-full object-cover portrait:object-contain ${
             scene.chapter_slug === 'act-5' ? 'grayscale contrast-90' : ''
           }`}
           src={scene.video_url}

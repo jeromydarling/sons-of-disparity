@@ -76,8 +76,8 @@ export default function ScrollAct({ act, onEnter, onLeave, stats = [], children 
       data-act={act.act_number}
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Background: Higgsfield loop, or a dark gradient until assets land */}
-      <div className={`absolute inset-0 ${isPrison ? 'grayscale contrast-75' : ''}`}>
+      {/* Large screens: the loop plays full-bleed behind the text */}
+      <div className={`absolute inset-0 hidden lg:block ${isPrison ? 'grayscale contrast-75' : ''}`}>
         {act.higgsfield_loop_url ? (
           <video
             className="h-full w-full object-cover"
@@ -91,13 +91,27 @@ export default function ScrollAct({ act, onEnter, onLeave, stats = [], children 
         ) : (
           <div className="h-full w-full bg-gradient-to-b from-bruise to-asphalt" />
         )}
-        {/* Readability overlays: full dim on mobile (text spans the whole
-            width), horizontal gradient on large screens */}
-        <div className="absolute inset-0 bg-asphalt/75 lg:hidden" />
-        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-asphalt/90 via-asphalt/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-asphalt/90 via-asphalt/70 to-transparent" />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-6 py-32 lg:py-44 lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+      <div className="relative mx-auto max-w-6xl px-6 pb-28 pt-16 lg:py-44 lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+        {/* Phones: the whole sketch frame, uncropped, above the prose */}
+        <div className="lg:hidden relative -mx-6 mb-10 lg:col-span-2">
+          {act.higgsfield_loop_url ? (
+            <video
+              className={`aspect-video w-full ${isPrison ? 'grayscale contrast-75' : ''}`}
+              src={act.higgsfield_loop_url}
+              poster={act.poster_url ?? undefined}
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          ) : (
+            <div className="aspect-video w-full bg-gradient-to-b from-bruise to-asphalt" />
+          )}
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-asphalt to-transparent" />
+        </div>
         {/* Prose column — narrows to max-w-sm inside the prison act */}
         <div className={isPrison ? 'max-w-sm' : 'max-w-2xl'}>
           <p
